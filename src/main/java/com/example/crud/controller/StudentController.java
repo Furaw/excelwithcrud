@@ -5,6 +5,8 @@ import com.example.crud.model.Student;
 import com.example.crud.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +26,7 @@ StudentRepository studentRepository;
                 .orElseThrow(() -> new Exception("Id not found"));
     }
     @PostMapping("/students")
-    public Student createStudent(@Valid @RequestBody Student student) {
+    public Student createStudent(@Valid @RequestBody Student student, BindingResult result) {
         return studentRepository.save(student);
     }
 
@@ -55,4 +57,14 @@ StudentRepository studentRepository;
 
         return ResponseEntity.ok().build();
     }
+    @RequestMapping(value = "/delstudent/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> delStudent(@PathVariable(value = "id") Long Id) throws Exception {
+        Student student = studentRepository.findById(Id)
+                .orElseThrow(() -> new Exception("Id doesnt exists"));
+
+        studentRepository.delete(student);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

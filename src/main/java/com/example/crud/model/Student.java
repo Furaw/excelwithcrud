@@ -11,15 +11,15 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    private String FirstName;
+    private String firstName;
 
-    private  String LastName;
+    private  String lastName;
 
-    private  int Age;
+    private  int age;
 
-    private String Faculty;
+    private String faculty;
 
-    private Date DateOfBirth;
+    private Date dateOfBirth;
 
 
 
@@ -27,11 +27,11 @@ public class Student {
     }
 
     public Student(String firstName, String lastName, int age, String faculty, Date dateOfBirth) {
-        FirstName = firstName;
-        LastName = lastName;
-        Age = age;
-        Faculty = faculty;
-        DateOfBirth = dateOfBirth;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.faculty = faculty;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Long getId() {
@@ -43,43 +43,43 @@ public class Student {
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public int getAge() {
-        return Age;
+        return age;
     }
 
     public void setAge(int age) {
-        Age = age;
+        this.age = age;
     }
 
 
     public String getFaculty() {
-        return Faculty;
+        return faculty;
     }
 
     public void setFaculty(String faculty) {
-        Faculty = faculty;
+        this.faculty = faculty;
     }
 
     public Date getDateOfBirth() {
-        return DateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
     }
 }

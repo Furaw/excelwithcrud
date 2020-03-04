@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="static.css">
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>firstName</th>
+        <th>lastName</th>
+        <th>age</th>
+        <th>dateOfBirth</th>
+        <th>faculty</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+
+        <td th:text="${student.Id}">Id</td>
+        <td th:text="${student.firstName}">firstName</td>
+        <td th:text="${student.lastName}">lastName</td>
+        <td th:text="${student.age}">age</td>
+        <td th:text="${student.dateOfBirth}">dateOfBirth</td>
+        <td th:text="${student.faculty}">faculty</td>
+<td><a th:href="@{/delstudent/{id}(id=${student.Id})}" class="btn btn-danger">Delete</a></td>
+
+
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+
+</html>
