@@ -8,7 +8,7 @@ import java.util.Date;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long Id;
 
     private String firstName;
@@ -20,6 +20,8 @@ public class Student {
     private String faculty;
 
     private Date dateOfBirth;
+
+
 
 
 
@@ -82,4 +84,6 @@ public class Student {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+
 }

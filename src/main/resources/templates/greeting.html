@@ -35,7 +35,12 @@
     </tr>
     </tbody>
 </table>
+<form th:action="@{/import}" method="post" enctype="multipart/form-data">
 
+    <input type="file" th:name="file">
+
+    <input th:type="submit" value="Import" />
+</form>
 
 </body>
 
