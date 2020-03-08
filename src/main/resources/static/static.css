@@ -9,3 +9,7 @@ body
     background-color: grey;
     color: rgb(235,235,235);
 }
+
+.addStudent{
+float:right;
+}

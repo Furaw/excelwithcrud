@@ -1,5 +1,7 @@
 package com.example.crud.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,10 +18,10 @@ public class Student {
     private  String lastName;
 
     private  int age;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateOfBirth;
 
     private String faculty;
-
-    private Date dateOfBirth;
 
 
 

@@ -7,6 +7,37 @@
     <link rel="stylesheet" type="text/css" href="static.css">
 </head>
 <body>
+<form action="#" th:action="@{/}"  method="get" >
+    <input type="submit" value="Reload page">
+</form>
+
+<form action="#" th:action="@{/}" th:object="${student}" method="post" class="addStudent">
+    <label for="firstName">firstName</label>
+    <div>
+    <input type="text"  th:field="*{firstName}" id="firstName" >
+    </div>
+    <label for="lastName">lastName</label>
+    <div>
+    <input type="text" th:field="*{lastName}"  id="lastName" >
+    </div>
+    <label for="age">age</label>
+    <div>
+    <input type="text" th:field="*{age}" id="age" >
+    </div>
+    <label for="dateOfBirth">dateOfBirth</label>
+
+    <div>
+    <input type="date" th:field="*{dateOfBirth}"  id="dateOfBirth" >
+    </div>
+
+    <label for="faculty">faculty</label>
+    <div>
+    <input type="text" th:field="*{faculty}" id="faculty" >
+    </div>
+    <input type="submit" value="Add Student">
+</form>
+
+
 
 <table>
     <thead>
@@ -29,15 +60,14 @@
         <td th:text="${student.age}">age</td>
         <td th:text="${student.dateOfBirth}">dateOfBirth</td>
         <td th:text="${student.faculty}">faculty</td>
-<td><a th:href="@{/delstudent/{id}(id=${student.Id})}" class="btn btn-danger">Delete</a></td>
-
-
+<td><a th:href="@{/delete(studentId=${student.Id})}" class="btn btn-danger">Delete</a></td>
     </tr>
 
 
     </tbody>
 </table>
-<form th:action="@{/import}" method="post" enctype="multipart/form-data">
+
+<form action="#" th:action="@{/import}" method="post" enctype="multipart/form-data">
 
     <input type="file" th:name="file">
 
@@ -45,7 +75,7 @@
 </form>
 
 
-<form th:action="@{/export}" method="get" enctype="multipart/form-data" id="export">
+<form action="#"  th:action="@{/export}" method="get" >
 
 
 
