@@ -11,7 +11,16 @@
     <input type="submit" value="Reload page">
 </form>
 
-<form action="#" th:action="@{/}" th:object="${student}" method="post" class="addStudent">
+<form id="addStudent">AddStudent </form>
+<button onclick="addStudent(2)">Show</button>
+<button onclick="addStudent(1)">Hide</button>
+
+<form id="updateStudent">UpdateStudent </form>
+<button onclick="show()">Show</button>
+<button onclick="hide()">Hide</button>
+
+<form action="#" th:action="@{/}" th:object="${student}" method="post" id="modal">
+    <p>Add</p>
     <label for="firstName">firstName</label>
     <div>
     <input type="text"  th:field="*{firstName}" id="firstName" >
@@ -36,7 +45,38 @@
     </div>
     <input type="submit" value="Add Student">
 </form>
+<form action="#" th:action="@{/update}" th:object="${student}" method="get" id="modal2">
+    <p>Update</p>
+    <label>Id</label>
+    <div>
+    <input type="text"  th:field="*{Id}">
+    </div>
+    <label>firstName</label>
+    <div>
+    <input type="text"  th:field="*{firstName}">
+    </div>
+    <label>lastName</label>
+    <div>
+        <input type="text" th:field="*{lastName}">
+    </div>
+    <label>age</label>
+    <div>
+        <input type="text" th:field="*{age}">
+    </div>
+    <label>dateOfBirth</label>
+    <div>
+        <input type="date" th:field="*{dateOfBirth}">
+    </div>
+    <label>faculty</label>
+    <div>
+        <input type="text" th:field="*{faculty}">
+    </div>
 
+<div>
+    <input type="submit" value="Update Student">
+</div>
+
+</form>
 
 
 <table>
@@ -76,14 +116,28 @@
 
 
 <form action="#"  th:action="@{/export}" method="get" >
-
-
-
     <input th:type="submit" value="Export File" />
 </form>
 
 
+<script>
+ document.getElementById("modal").style.display="none";
+  document.getElementById("modal2").style.display="none";
+function addStudent(a)
+{
+    if(a==1)
+        document.getElementById("modal").style.display="none";
+    else
+        document.getElementById("modal").style.display="block";
+}
+function show(){
+document.getElementById("modal2").style.display="block";
+}
+function hide(){
+document.getElementById("modal2").style.display="none";
+}
 
+</script>
 
 </body>
 

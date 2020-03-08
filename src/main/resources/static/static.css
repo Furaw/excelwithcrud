@@ -1,4 +1,4 @@
-     table, th, td {
+ table, th, td {
       padding: 10px;
       border: 1px solid black;
       border-collapse: collapse;
@@ -9,7 +9,25 @@ body
     background-color: grey;
     color: rgb(235,235,235);
 }
+#modal
+ {
+  padding: 10px;
+       border: 1px solid black;
+ float:right;
 
-.addStudent{
-float:right;
+ }
+ #modal2
+ {
+  padding: 10px;
+       border: 1px solid black;
+       margin-right: 2%;
+
+ float:right;
+ }
+
+p{
+ display: flex;
+  align-items: center;
+  justify-content: center;
+color:red;
 }

@@ -51,7 +51,6 @@ public class PageController {
 
 
     @GetMapping("/")
-
     public String  getAllStudents(@ModelAttribute Student student, Model model , BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
@@ -61,20 +60,10 @@ public class PageController {
     }
 
 
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
 
-
-    /* @PostMapping(path = "/students", consumes = "application/x-www-form-urlencoded")
-     public Student test2(Student student) {
-         return studentRepository.save(student);
-     }*/
-
-
-
-    @PutMapping("/students/{id}")
-    @ResponseBody
-    public Student updateStudent(@PathVariable(value = "id") Long Id,
-                                 @Valid @RequestBody Student student) throws Exception {
-
+    public String updateUser(@RequestParam(name="Id")long Id,@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws Exception {
+        model.addAttribute("students",studentRepository.findAll());
         Student studentProperties = studentRepository.findById(Id)
                 .orElseThrow(() -> new Exception("Id doesnt exists"));
 
@@ -86,9 +75,9 @@ public class PageController {
 
         Student updatedStudent = studentRepository.save(studentProperties);
 
-        return updatedStudent;
-    }
 
+        return "greeting";
+    }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
 
