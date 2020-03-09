@@ -10,73 +10,50 @@
 <form action="#" th:action="@{/}"  method="get" >
     <input type="submit" value="Reload page">
 </form>
+    <button onclick="show()">Add/Update Student</button>
 
-<form id="addStudent">AddStudent </form>
-<button onclick="addStudent(2)">Show</button>
-<button onclick="addStudent(1)">Hide</button>
 
-<form id="updateStudent">UpdateStudent </form>
-<button onclick="show()">Show</button>
-<button onclick="hide()">Hide</button>
 
-<form action="#" th:action="@{/}" th:object="${student}" method="post" id="modal">
-    <p>Add</p>
-    <label for="firstName">firstName</label>
-    <div>
-    <input type="text"  th:field="*{firstName}" id="firstName" >
+<form action="#" th:action="@{/}" th:object="${student}" method="post" id="addOrUpdateForm" >
+    <div id="mydiv">
+        <span class="close">&times;</span>
+        <div id="mydivheader">Click here to move</div>
+    <p>Add Or Update Student</p>
+
+    <div >
+        <label>Id </label>
+        <input type="text"  th:field="*{Id}" placeholder="Enter Id in case of update">
     </div>
-    <label for="lastName">lastName</label>
-    <div>
-    <input type="text" th:field="*{lastName}"  id="lastName" >
+    <div >
+        <label for="firstName">firstName</label>
+        <input type="text"  th:field="*{firstName}" id="firstName" >
     </div>
+    <div >
+        <label for="lastName">lastName</label>
+        <input type="text" th:field="*{lastName}"  id="lastName" >
+    </div>
+    <div >
     <label for="age">age</label>
-    <div>
     <input type="text" th:field="*{age}" id="age" >
     </div>
-    <label for="dateOfBirth">dateOfBirth</label>
-
-    <div>
-    <input type="date" th:field="*{dateOfBirth}"  id="dateOfBirth" >
+    <div >
+        <label for="dateOfBirth">dateOfBirth</label>
+        <input type="date" th:field="*{dateOfBirth}"  id="dateOfBirth" >
     </div>
 
-    <label for="faculty">faculty</label>
-    <div>
-    <input type="text" th:field="*{faculty}" id="faculty" >
-    </div>
-    <input type="submit" value="Add Student">
-</form>
-<form action="#" th:action="@{/update}" th:object="${student}" method="get" id="modal2">
-    <p>Update</p>
-    <label>Id</label>
-    <div>
-    <input type="text"  th:field="*{Id}">
-    </div>
-    <label>firstName</label>
-    <div>
-    <input type="text"  th:field="*{firstName}">
-    </div>
-    <label>lastName</label>
-    <div>
-        <input type="text" th:field="*{lastName}">
-    </div>
-    <label>age</label>
-    <div>
-        <input type="text" th:field="*{age}">
-    </div>
-    <label>dateOfBirth</label>
-    <div>
-        <input type="date" th:field="*{dateOfBirth}">
-    </div>
-    <label>faculty</label>
-    <div>
-        <input type="text" th:field="*{faculty}">
+    <div >
+        <label for="faculty">faculty</label>
+        <input type="text" th:field="*{faculty}" id="faculty" >
+
     </div>
 
-<div>
-    <input type="submit" value="Update Student">
-</div>
+
+            <button type="submit" value="AddOrUpdate Student">AddOrUpdate Student</button>
+
+    </div>
 
 </form>
+
 
 
 <table>
@@ -92,7 +69,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="student : ${students}">
+    <tr th:each="student : ${students}" >
 
         <td th:text="${student.Id}">Id</td>
         <td th:text="${student.firstName}">firstName</td>
@@ -121,21 +98,60 @@
 
 
 <script>
- document.getElementById("modal").style.display="none";
-  document.getElementById("modal2").style.display="none";
-function addStudent(a)
-{
-    if(a==1)
-        document.getElementById("modal").style.display="none";
-    else
-        document.getElementById("modal").style.display="block";
+document.getElementById("addOrUpdateForm").style.display="none";
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  addOrUpdateForm.style.display = "none";
 }
+
 function show(){
-document.getElementById("modal2").style.display="block";
+document.getElementById("addOrUpdateForm").style.display="block"
+
 }
-function hide(){
-document.getElementById("modal2").style.display="none";
+dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }
+
 
 </script>
 

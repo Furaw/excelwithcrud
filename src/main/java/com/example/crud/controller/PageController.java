@@ -35,49 +35,48 @@ public class PageController {
         this.studentRepository = studentRepository;
     }
 
-
-    @PostMapping(value="/")
-    public String contactSubmit(@ModelAttribute Student student, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("Error parsing bindingResult");
-        }
-
-        model.addAttribute("students",studentRepository.findAll());
-        model.addAttribute("student", student);
-        studentRepository.save(student);
-        return "greeting";
-    }
-
-
-
     @GetMapping("/")
     public String  getAllStudents(@ModelAttribute Student student, Model model , BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
         }
-            model.addAttribute("students",studentRepository.findAll());
-         return "greeting";
-    }
-
-
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-
-    public String updateUser(@RequestParam(name="Id")long Id,@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws Exception {
         model.addAttribute("students",studentRepository.findAll());
-        Student studentProperties = studentRepository.findById(Id)
-                .orElseThrow(() -> new Exception("Id doesnt exists"));
-
-        studentProperties.setAge(student.getAge());
-        studentProperties.setFirstName(student.getFirstName());
-        studentProperties.setLastName(student.getLastName());
-        studentProperties.setFaculty(student.getFaculty());
-        studentProperties.setDateOfBirth(student.getDateOfBirth());
-
-        Student updatedStudent = studentRepository.save(studentProperties);
-
-
         return "greeting";
     }
+
+
+    @PostMapping(value="/")
+    public String contactSubmit(@RequestParam(value = "Id", required=false) Long Id,@ModelAttribute Student student, BindingResult bindingResult, Model model) throws Exception {
+        if (bindingResult.hasErrors()) {
+            System.out.println("Error parsing bindingResult");
+        }
+        if(Id ==null){
+
+            studentRepository.save(student);
+        }
+        else{
+            Student studentProperties = studentRepository.findById(Id)
+                    .orElseThrow(() -> new Exception("Id doesnt exists"));
+
+            studentProperties.setAge(student.getAge());
+            studentProperties.setFirstName(student.getFirstName());
+            studentProperties.setLastName(student.getLastName());
+            studentProperties.setFaculty(student.getFaculty());
+            studentProperties.setDateOfBirth(student.getDateOfBirth());
+
+            Student updatedStudent = studentRepository.save(studentProperties);
+
+        }
+
+        model.addAttribute("students",studentRepository.findAll());
+        model.addAttribute("student", student);
+        return "greeting";
+    }
+
+
+
+
+
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
 

@@ -4,30 +4,51 @@
       border-collapse: collapse;
       }
 
-body
-{
-    background-color: grey;
-    color: rgb(235,235,235);
+
+#mydiv {
+width:50%;
+  position: absolute;
+  float:right;
+  z-index: 9;
+  background-color: #f1f1f1;
+  text-align: center;
+  border: 1px solid #d3d3d3;
 }
-#modal
- {
+#mydivheader {
+  text-align: center;
   padding: 10px;
-       border: 1px solid black;
- float:right;
-
- }
- #modal2
- {
-  padding: 10px;
-       border: 1px solid black;
-       margin-right: 2%;
-
- float:right;
- }
-
-p{
- display: flex;
-  align-items: center;
-  justify-content: center;
-color:red;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+  height:80%;
 }
+.close {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 250px;
+    text-align: right;
+}
+input {
+  display: inline-block;
+  float: left;
+}
+
+
+
+
+
