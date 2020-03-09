@@ -17,12 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -34,38 +36,33 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String  getAllStudents(@RequestParam(value = "page", required=false) Integer page,@ModelAttribute Student student, Model model , BindingResult bindingResult) {
+    public String getAllStudents(@RequestParam(value = "page", required = false) Integer page, @ModelAttribute Student student, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
         }
 
-        if(page==null){
+        if (page == null) {
 
             Pageable pageable = PageRequest.of(0, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
-        }
-        else{
+            model.addAttribute("students", studentRepository.findAll(pageable));
+        } else {
 
-            Pageable pageable = PageRequest.of( page-1, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
+            Pageable pageable = PageRequest.of(page - 1, 10);
+            model.addAttribute("students", studentRepository.findAll(pageable));
         }
         return "greeting";
     }
 
 
-
-
-
-    @PostMapping(value="/")
-    public String contactSubmit(@RequestParam(value = "page", required=false) Integer page, @RequestParam(value = "Id", required=false) Long Id,@ModelAttribute Student student, BindingResult bindingResult, Model model) throws Exception {
+    @PostMapping(value = "/")
+    public String contactSubmit(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "Id", required = false) Long Id, @ModelAttribute Student student, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
         }
-        if(Id ==null){
+        if (Id == null) {
 
             studentRepository.save(student);
-        }
-        else{
+        } else {
             Student studentProperties = studentRepository.findById(Id)
                     .orElseThrow(() -> new Exception("Id doesnt exists"));
 
@@ -79,45 +76,39 @@ public class MainController {
 
         }
 
-        if(page==null){
+        if (page == null) {
 
             Pageable pageable = PageRequest.of(0, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
-        }
-        else{
+            model.addAttribute("students", studentRepository.findAll(pageable));
+        } else {
 
-            Pageable pageable = PageRequest.of( page-1, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
+            Pageable pageable = PageRequest.of(page - 1, 10);
+            model.addAttribute("students", studentRepository.findAll(pageable));
         }
 
         return "greeting";
     }
 
 
-
-
-
-
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
 
-    public String handleDeleteUser(@RequestParam(value = "page", required=false) Integer page,@RequestParam(name="studentId")long studentId,@ModelAttribute Student student ,Model model , BindingResult bindingResult) {
-        if(page==null){
+    public String handleDeleteUser(@RequestParam(value = "page", required = false) Integer page, @RequestParam(name = "studentId") long studentId, @ModelAttribute Student student, Model model, BindingResult bindingResult) {
+        if (page == null) {
 
             Pageable pageable = PageRequest.of(0, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
-        }
-        else{
+            model.addAttribute("students", studentRepository.findAll(pageable));
+        } else {
 
-            Pageable pageable = PageRequest.of( page-1, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
+            Pageable pageable = PageRequest.of(page - 1, 10);
+            model.addAttribute("students", studentRepository.findAll(pageable));
         }
-         studentRepository.deleteById(studentId);
+        studentRepository.deleteById(studentId);
         return "greeting";
     }
 
     @PostMapping("/import")
 
-    public String mapReapExcelData(@RequestParam(value = "page", required=false) Integer page,@RequestParam("file") MultipartFile reapExcelDataFile,@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws IOException {
+    public String mapReapExcelData(@RequestParam(value = "page", required = false) Integer page, @RequestParam("file") MultipartFile reapExcelDataFile, @ModelAttribute Student student, Model model, BindingResult bindingResult) throws IOException {
 
 
         XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
@@ -137,15 +128,14 @@ public class MainController {
             studentRepository.save(tempStudent);
 
         }
-        if(page==null){
+        if (page == null) {
 
             Pageable pageable = PageRequest.of(0, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
-        }
-        else{
+            model.addAttribute("students", studentRepository.findAll(pageable));
+        } else {
 
-            Pageable pageable = PageRequest.of( page-1, 10);
-            model.addAttribute("students",studentRepository.findAll(pageable));
+            Pageable pageable = PageRequest.of(page - 1, 10);
+            model.addAttribute("students", studentRepository.findAll(pageable));
         }
 
         return "greeting";
@@ -154,9 +144,9 @@ public class MainController {
 
     @GetMapping("/export")
 
-    public String exportExcelData(@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws IOException {
-        model.addAttribute("students",studentRepository.findAll());
-        List<Student> studentList= new LinkedList<Student>();
+    public String exportExcelData(@ModelAttribute Student student, Model model, BindingResult bindingResult) throws IOException {
+        model.addAttribute("students", studentRepository.findAll());
+        List<Student> studentList = new LinkedList<Student>();
         studentList.addAll(studentRepository.findAll());
 
 
@@ -194,7 +184,6 @@ public class MainController {
         workbook.write(out);
         out.close();
         return "greeting";
-
 
 
     }
