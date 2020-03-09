@@ -10,15 +10,13 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,27 +24,40 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 @Controller
-public class PageController {
+public class MainController {
 
     StudentRepository studentRepository;
 
     @Autowired
-    public PageController(StudentRepository studentRepository) {
+    public MainController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
     @GetMapping("/")
-    public String  getAllStudents(@ModelAttribute Student student, Model model , BindingResult bindingResult) {
+    public String  getAllStudents(@RequestParam(value = "page", required=false) Integer page,@ModelAttribute Student student, Model model , BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
         }
-        model.addAttribute("students",studentRepository.findAll());
+
+        if(page==null){
+
+            Pageable pageable = PageRequest.of(0, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+        else{
+
+            Pageable pageable = PageRequest.of( page-1, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
         return "greeting";
     }
 
 
+
+
+
     @PostMapping(value="/")
-    public String contactSubmit(@RequestParam(value = "Id", required=false) Long Id,@ModelAttribute Student student, BindingResult bindingResult, Model model) throws Exception {
+    public String contactSubmit(@RequestParam(value = "page", required=false) Integer page, @RequestParam(value = "Id", required=false) Long Id,@ModelAttribute Student student, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             System.out.println("Error parsing bindingResult");
         }
@@ -68,8 +79,17 @@ public class PageController {
 
         }
 
-        model.addAttribute("students",studentRepository.findAll());
-        model.addAttribute("student", student);
+        if(page==null){
+
+            Pageable pageable = PageRequest.of(0, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+        else{
+
+            Pageable pageable = PageRequest.of( page-1, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+
         return "greeting";
     }
 
@@ -80,17 +100,25 @@ public class PageController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
 
-    public String handleDeleteUser(@RequestParam(name="studentId")long studentId,@ModelAttribute Student student ,Model model , BindingResult bindingResult) {
-            model.addAttribute("students",studentRepository.findAll());
+    public String handleDeleteUser(@RequestParam(value = "page", required=false) Integer page,@RequestParam(name="studentId")long studentId,@ModelAttribute Student student ,Model model , BindingResult bindingResult) {
+        if(page==null){
+
+            Pageable pageable = PageRequest.of(0, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+        else{
+
+            Pageable pageable = PageRequest.of( page-1, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
          studentRepository.deleteById(studentId);
         return "greeting";
     }
 
     @PostMapping("/import")
 
-    public String mapReapExcelData(@RequestParam("file") MultipartFile reapExcelDataFile,@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws IOException {
+    public String mapReapExcelData(@RequestParam(value = "page", required=false) Integer page,@RequestParam("file") MultipartFile reapExcelDataFile,@ModelAttribute Student student ,Model model , BindingResult bindingResult) throws IOException {
 
-        model.addAttribute("students",studentRepository.findAll());
 
         XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
         XSSFSheet worksheet = workbook.getSheetAt(0);
@@ -109,6 +137,17 @@ public class PageController {
             studentRepository.save(tempStudent);
 
         }
+        if(page==null){
+
+            Pageable pageable = PageRequest.of(0, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+        else{
+
+            Pageable pageable = PageRequest.of( page-1, 10);
+            model.addAttribute("students",studentRepository.findAll(pageable));
+        }
+
         return "greeting";
 
     }

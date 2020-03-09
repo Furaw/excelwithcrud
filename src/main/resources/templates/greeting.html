@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="static.css">
 </head>
 <body>
+
+
 <form action="#" th:action="@{/}"  method="get" >
     <input type="submit" value="Reload page">
 </form>
@@ -84,76 +86,33 @@
     </tbody>
 </table>
 
-<form action="#" th:action="@{/import}" method="post" enctype="multipart/form-data">
-
-    <input type="file" th:name="file">
-
-    <input th:type="submit" value="Import" />
+<form action="#" th:action="@{/}" th:object="${student}"  method="get"  >
+    <div >
+        <label>Enter page number </label>
+        <input type="text"  th:field="*{page}" >
+    </div>
+    <div>
+        <button type="submit" >Change page number</button>
+    </div>
 </form>
 
+<div class="excel-upload">
 
-<form action="#"  th:action="@{/export}" method="get" >
-    <input th:type="submit" value="Export File" />
-</form>
+    <form action="#" th:action="@{/import}" method="post" enctype="multipart/form-data">
 
+        <input type="file" th:name="file">
 
-<script>
-document.getElementById("addOrUpdateForm").style.display="none";
-var span = document.getElementsByClassName("close")[0];
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  addOrUpdateForm.style.display = "none";
-}
+        <input th:type="submit" value="Import" />
+    </form>
+</div>
+<div class="excel-download">
+    Export Excel File
+    <form action="#"  th:action="@{/export}" method="get" >
+        <input th:type="submit" value="Export File" />
+    </form>
+</div>
 
-function show(){
-document.getElementById("addOrUpdateForm").style.display="block"
-
-}
-dragElement(document.getElementById("mydiv"));
-
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    /* stop moving when mouse button is released:*/
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
-
-</script>
+<script src="static.js"></script>
 
 </body>
 

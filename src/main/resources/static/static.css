@@ -4,7 +4,12 @@
       border-collapse: collapse;
       }
 
-
+.excel-upload{
+margin-top:2%;
+}
+.excel-download{
+margin-top:5%;
+}
 #mydiv {
 width:50%;
   position: absolute;
