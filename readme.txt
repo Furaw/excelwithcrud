@@ -15,7 +15,7 @@ Password = 1223
 DROP DATABASE IF EXISTS students;
 create database students;
 
- 8.Move back to Idea and run Application class.
+ 8.Move back to Idea and run CrudApplication class.
 9. Go to browser and paste this url
 http://localhost:8080/      			Default url
 10.This application gives you availability to add/update/delete students from page.
